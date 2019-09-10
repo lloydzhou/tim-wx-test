@@ -52,11 +52,10 @@ Page({
       version: '3.7.0',
     })
     im.on('MESSAGE', msg => {
-      const { messages=[], status={unread: 0} } = this.data;
-      status.unread += 1
+      const { messages=[], unread=0 } = this.data;
       messages.push(msg)
       console.log(msg)
-      this.setData({ status, messages })
+      this.setData({ unread: unread + 1, messages })
     })
     im.on('OPEN', e => {
       console.log('onOpen', e)
