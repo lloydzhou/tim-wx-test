@@ -2,7 +2,6 @@
 // 如果是微信小程序就注释掉这一段
 // import wx from './websocket';
 
-
 export class MessageElem {
   constructor(type, content) {
     this.MsgType = type
@@ -246,9 +245,7 @@ export default class NchanIM {
     this.sockettask.onMessage((e) => {
       console.log(e)
       if (e.type === "message" || e.type == undefined) {
-        const dataPromise = typeof e.data === "string"
-          ? Promise.resolve(e.data)
-          : e.data.text()
+        const dataPromise = typeof e.data === "string" ? Promise.resolve(e.data) : e.data.text()
         // console.log(e, dataPromise)
         dataPromise.then(txt => {
           console.log(txt)
