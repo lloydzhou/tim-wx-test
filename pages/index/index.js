@@ -1,5 +1,6 @@
 //index.js
 import TIM from '../../tim-wx';
+import NIM from '../../nim';
 
 const app = getApp()
 
@@ -45,6 +46,25 @@ Page({
       })
     }
 
+    const im = new NIM({
+      env: 'test', // env=dev/test/production
+      platform: 'weapp',
+      version: '3.7.0',
+    })
+    im.on('MESSAGE', msg => {
+      const { messages=[], status={unread: 0} } = this.data;
+      status.unread += 1
+      messages.push(msg)
+      console.log(msg)
+      this.setData({ status, messages })
+    })
+    im.on('OPEN', e => {
+      console.log('onOpen', e)
+    })
+    im.login({
+      sessionID: '8a85c53f-38e7-4434-9673-9697fd2f5f26'
+    })
+
     const that = this
     // 初始化webim
     let tim = TIM.create({
@@ -56,6 +76,7 @@ Page({
 
     // 监听事件，如：
     tim.on(TIM.EVENT.SDK_READY, function(event) {
+      console.log('TIM.EVENT.SDK_READY', event)
       // 收到离线消息和会话列表同步完毕通知，接入侧可以调用 sendMessage 等需要鉴权的接口
       // event.name - TIM.EVENT.SDK_READY
     });
